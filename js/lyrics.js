@@ -45,3 +45,23 @@ window.getCurrentLyric = function (currentTime) {
   }
   return active ? active.text : '';
 };
+
+// Trả về dòng hiện tại + tỉ lệ tiến độ (0..1) trong khoảng tới dòng kế tiếp,
+// dùng để hiện chữ kiểu karaoke (musicPlayer.js).
+window.getCurrentLyricState = function (currentTime) {
+  var lines = window.LOVE_STORY_LYRICS;
+  var idx = -1;
+  for (var i = 0; i < lines.length; i++) {
+    if (lines[i].t <= currentTime) idx = i;
+    else break;
+  }
+  if (idx === -1) return { text: '', progress: 0 };
+  var current = lines[idx];
+  var next = lines[idx + 1];
+  var progress = 1;
+  if (next) {
+    progress = (currentTime - current.t) / (next.t - current.t);
+    progress = Math.max(0, Math.min(1, progress));
+  }
+  return { text: current.text, progress: progress };
+};

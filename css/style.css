@@ -59,17 +59,15 @@ button {
 
 body[data-scene="locked"] #scene-passcode { display: flex; }
 body[data-scene="countdown"] #scene-countdown { display: flex; }
-body[data-scene="map"] #scene-journey,
 body[data-scene="flight"] #scene-journey { display: flex; }
-body[data-scene="gift"] #scene-gift,
-body[data-scene="envelope-out"] #scene-gift,
-body[data-scene="quiz"] #scene-gift { display: flex; }
+body[data-scene="boxes"] #scene-boxes { display: flex; }
+body[data-scene="gallery"] #scene-box-gallery { display: flex; }
+body[data-scene="bouquet"] #scene-box-bouquet,
+body[data-scene="quiz"] #scene-box-bouquet,
+body[data-scene="letter"] #scene-box-bouquet { display: flex; }
 body[data-scene="quiz"] #quiz-popup { display: flex; }
-body[data-scene="letter-reveal"] #scene-letter,
-body[data-scene="ambient"] #scene-letter { display: flex; }
-body[data-scene="ambient"] #ambient-bg { opacity: 1; }
-body[data-scene="letter-reveal"] #gramophone-player,
-body[data-scene="ambient"] #gramophone-player { display: flex; }
+body[data-scene="invite"] #scene-box-invite { display: flex; }
+body[data-scene="invite"] #gramophone-player { display: flex; }
 
 .scene-eyebrow {
   font-family: var(--font-serif);

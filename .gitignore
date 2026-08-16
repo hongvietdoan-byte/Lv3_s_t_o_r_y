@@ -4,3 +4,6 @@ assets/reference/
 # Nội dung thư thật (plaintext) — KHÔNG BAO GIỜ commit file này.
 # Chỉ js/letterData.js (bản mã hoá, sinh ra từ tools/encrypt-letter.js) mới được commit.
 letter-source.txt
+
+# QR code cá nhân trỏ tới link đã deploy — không cần thiết trên GitHub Pages.
+qr-love-story.png

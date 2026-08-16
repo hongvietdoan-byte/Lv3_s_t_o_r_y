@@ -54,14 +54,14 @@
     yes100Btn.addEventListener('click', function () {
       showToast('Yeaaay 100 sao luôn nè 🌟');
       if (window.spawnHearts) window.spawnHearts(10, { spread: 100 });
-      document.body.dataset.scene = 'envelope-out';
+      document.body.dataset.scene = 'bouquet';
       gsap.to('#envelope-btn', {
         scale: 1.3,
         opacity: 0,
         duration: 0.7,
         ease: 'power1.in',
         onComplete: function () {
-          document.body.dataset.scene = 'letter-reveal';
+          document.body.dataset.scene = 'letter';
         }
       });
     });

@@ -1,20 +1,32 @@
 (function () {
-  // Tự động mở nắp hộp quà khi vào cảnh gift (được main.js gọi).
-  window.openGiftBox = function (onDone) {
-    var lid = document.getElementById('gift-box-lid');
-    var contents = document.getElementById('gift-contents');
-
-    gsap.timeline({ onComplete: onDone })
-      .to(lid, { rotate: -35, y: -18, duration: 0.8, ease: 'back.out(1.4)' }, 0.3)
-      .add(function () { contents.classList.add('is-visible'); })
-      .to(contents, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.6)' }, '<')
-      .call(function () { if (window.spawnHearts) window.spawnHearts(4, { spread: 200 }); });
-  };
-
   document.addEventListener('DOMContentLoaded', function () {
-    var envelopeBtn = document.getElementById('envelope-btn');
-    envelopeBtn.addEventListener('click', function () {
-      if (window.openQuiz) window.openQuiz();
+    document.querySelectorAll('.pick-box').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.dataset.target;
+        var lid = btn.querySelector('.pick-box-lid');
+        gsap.timeline()
+          .to(lid, { rotate: -50, y: -14, duration: 0.5, ease: 'back.out(1.6)' })
+          .call(function () {
+            if (window.spawnHearts) window.spawnHearts(4, { spread: 150 });
+          })
+          .call(function () {
+            if (window.goToBox) window.goToBox(target);
+          }, null, '+=0.25');
+      });
     });
+
+    document.querySelectorAll('[data-back]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (window.goToBoxes) window.goToBoxes();
+      });
+    });
+
+    // Wire phong thư trong hộp bó hoa (mở quiz), tách khỏi logic mở hộp ở trên.
+    var envelopeBtn = document.getElementById('envelope-btn');
+    if (envelopeBtn) {
+      envelopeBtn.addEventListener('click', function () {
+        if (window.openQuiz) window.openQuiz();
+      });
+    }
   });
 })();

@@ -1,21 +1,31 @@
 (function () {
-  var SCENE_ALIASES = { letter: 'letter-reveal' };
+  window.goToBoxes = function () {
+    document.body.dataset.scene = 'boxes';
+  };
 
-  function resolveScene(name) {
-    return SCENE_ALIASES[name] || name;
-  }
+  window.goToBox = function (target) {
+    if (target === 'gallery') {
+      document.body.dataset.scene = 'gallery';
+    } else if (target === 'bouquet') {
+      if (window.resetBouquetScene) window.resetBouquetScene();
+      document.body.dataset.scene = 'bouquet';
+    } else if (target === 'invite') {
+      document.body.dataset.scene = 'invite';
+      if (window.startInviteScene) window.startInviteScene();
+    }
+  };
 
   function jumpTo(scene) {
     document.body.dataset.scene = scene;
     if (scene === 'flight') {
-      if (window.playFlight) window.playFlight(function () { jumpTo('gift'); });
-    } else if (scene === 'gift') {
-      if (window.openGiftBox) window.openGiftBox();
-    } else if (scene === 'ambient') {
+      if (window.playFlight) window.playFlight(function () { window.goToBoxes(); });
+    } else if (scene === 'bouquet') {
+      if (window.resetBouquetScene) window.resetBouquetScene();
+    } else if (scene === 'letter') {
       if (window.debugRevealLetter) window.debugRevealLetter();
+    } else if (scene === 'invite') {
+      if (window.startInviteScene) window.startInviteScene();
     }
-    // scene === 'letter-reveal': không cần thêm gì, envelope-open-wrap
-    // hiện sẵn qua CSS, wax-seal-btn đã được letterReveal.js wire sẵn.
   }
 
   // Gọi sau khi qua được màn passcode (hoặc trực tiếp ở chế độ debug).
@@ -36,9 +46,10 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var params = new URLSearchParams(location.search);
+    // scene: countdown | flight | boxes | gallery | bouquet | quiz | letter | invite
     var debugScene = params.get('debug');
     if (debugScene) {
-      var start = function () { window.initExperience(resolveScene(debugScene)); };
+      var start = function () { window.initExperience(debugScene); };
       if (window.deriveLoveKey) {
         window.deriveLoveKey(DEBUG_PASSCODE).then(function (key) {
           window.__loveKey = key;
