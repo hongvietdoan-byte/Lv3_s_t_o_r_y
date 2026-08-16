@@ -210,7 +210,6 @@
 
 /* ================= HỘP 2: BÓ HOA + THƯ ================= */
 #scene-box-bouquet {
-  position: relative;
   overflow: hidden;
   background: radial-gradient(ellipse at 50% 30%, #2c2350 0%, var(--color-night) 55%, var(--color-night-deep) 100%);
 }
@@ -426,7 +425,6 @@ body[data-scene="letter"] #gift-eyebrow { display: none; }
 
 /* ================= HỘP 3: LỜI MỜI DISNEYLAND ================= */
 #scene-box-invite {
-  position: relative;
   overflow: hidden;
   background: #07061a;
   padding-bottom: clamp(90px, 18vh, 140px);
