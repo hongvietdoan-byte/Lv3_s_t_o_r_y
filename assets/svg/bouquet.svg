@@ -1,0 +1,53 @@
+<svg viewBox="0 0 260 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wrapGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbd9e2"/>
+      <stop offset="100%" stop-color="#f3aec3"/>
+    </linearGradient>
+  </defs>
+  <!-- paper wrap cone -->
+  <path d="M60,190 L130,320 L200,190 Z" fill="url(#wrapGrad)"/>
+  <path d="M60,190 L20,150 L100,175 Z" fill="#fbe3ea" opacity="0.9"/>
+  <path d="M200,190 L240,150 L160,175 Z" fill="#f6c6d6" opacity="0.9"/>
+  <path d="M100,205 L130,290 L160,205 Z" fill="#ffffff" opacity="0.8"/>
+  <!-- ribbon -->
+  <path d="M75,215 L185,225" stroke="#fff" stroke-width="10" opacity="0.85"/>
+  <path d="M130,215 C118,230 118,245 130,255 C142,245 142,230 130,215 Z" fill="#fff"/>
+
+  <!-- leaves -->
+  <g fill="#8fae6b">
+    <ellipse cx="55" cy="140" rx="10" ry="26" transform="rotate(-30 55 140)"/>
+    <ellipse cx="205" cy="140" rx="10" ry="26" transform="rotate(30 205 140)"/>
+    <ellipse cx="130" cy="95" rx="9" ry="24" transform="rotate(4 130 95)"/>
+  </g>
+
+  <!-- rose heads -->
+  <g>
+    <circle cx="90" cy="150" r="26" fill="#f6b9cc"/>
+    <circle cx="90" cy="150" r="17" fill="#f7cdd6"/>
+    <circle cx="90" cy="150" r="8" fill="#fbe3ea"/>
+  </g>
+  <g>
+    <circle cx="170" cy="150" r="26" fill="#f2a0ba"/>
+    <circle cx="170" cy="150" r="17" fill="#f6b9cc"/>
+    <circle cx="170" cy="150" r="8" fill="#fbd9e2"/>
+  </g>
+  <g>
+    <circle cx="130" cy="110" r="30" fill="#ffffff"/>
+    <circle cx="130" cy="110" r="20" fill="#fef6f8"/>
+    <circle cx="130" cy="110" r="9" fill="#fde3ea"/>
+  </g>
+  <g>
+    <circle cx="65" cy="105" r="18" fill="#fbe3ea"/>
+    <circle cx="65" cy="105" r="10" fill="#ffffff"/>
+  </g>
+  <g>
+    <circle cx="195" cy="108" r="18" fill="#f6b9cc"/>
+    <circle cx="195" cy="108" r="10" fill="#fbd9e2"/>
+  </g>
+  <g fill="#fff7ea">
+    <circle cx="115" cy="70" r="6"/>
+    <circle cx="150" cy="72" r="6"/>
+    <circle cx="132" cy="55" r="6"/>
+  </g>
+</svg>

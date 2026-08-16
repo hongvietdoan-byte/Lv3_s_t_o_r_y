@@ -1,0 +1,113 @@
+:root {
+  --color-blush: #f7cdd6;
+  --color-blush-deep: #e8a3b4;
+  --color-cream: #fdf3ec;
+  --color-kraft: #c9a06a;
+  --color-kraft-deep: #8a5a34;
+  --color-brown: #6b4222;
+  --color-wax: #b3122c;
+  --color-wax-deep: #7c0c1f;
+  --color-gold: #d8b98a;
+  --color-ink: #4a3428;
+  --color-night: #1c1730;
+  --color-night-deep: #0f0c1c;
+  --font-script: 'Great Vibes', cursive;
+  --font-ui: 'Quicksand', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --vh: 1vh;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  color: var(--color-ink);
+  background: var(--color-night);
+}
+
+body {
+  position: relative;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+img, svg { max-width: 100%; display: block; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ---------- Scene visibility system ---------- */
+.scene {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
+  text-align: center;
+}
+
+body[data-scene="locked"] #scene-passcode { display: flex; }
+body[data-scene="countdown"] #scene-countdown { display: flex; }
+body[data-scene="map"] #scene-journey,
+body[data-scene="flight"] #scene-journey { display: flex; }
+body[data-scene="gift"] #scene-gift,
+body[data-scene="envelope-out"] #scene-gift,
+body[data-scene="quiz"] #scene-gift { display: flex; }
+body[data-scene="quiz"] #quiz-popup { display: flex; }
+body[data-scene="letter-reveal"] #scene-letter,
+body[data-scene="ambient"] #scene-letter { display: flex; }
+body[data-scene="ambient"] #ambient-bg { opacity: 1; }
+body[data-scene="letter-reveal"] #gramophone-player,
+body[data-scene="ambient"] #gramophone-player { display: flex; }
+
+.scene-eyebrow {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(14px, 3.2vw, 18px);
+  color: var(--color-cream);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.scene-caption {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-blush);
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* ---------- Heart particle layer ---------- */
+#heart-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 500;
+  overflow: hidden;
+}
+.floating-heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 22px;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@keyframes heart-float {
+  0%   { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.9; }
+  100% { transform: translate(var(--drift, 20px), -70vh) scale(1) rotate(20deg); opacity: 0; }
+}
