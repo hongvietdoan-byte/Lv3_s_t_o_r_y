@@ -67,7 +67,12 @@ body[data-scene="quiz"] #scene-box-bouquet,
 body[data-scene="letter"] #scene-box-bouquet { display: flex; }
 body[data-scene="quiz"] #quiz-popup { display: flex; }
 body[data-scene="invite"] #scene-box-invite { display: flex; }
-body[data-scene="invite"] #gramophone-player { display: flex; }
+
+/* Gramophone + lyrics trôi nổi: nhạc là nền xuyên suốt từ lúc máy bay cất cánh */
+body:not([data-scene="locked"]):not([data-scene="countdown"]) #gramophone-player,
+body:not([data-scene="locked"]):not([data-scene="countdown"]) #lyrics-float-layer {
+  display: flex;
+}
 
 .scene-eyebrow {
   font-family: var(--font-serif);

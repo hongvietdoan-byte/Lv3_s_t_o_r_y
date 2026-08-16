@@ -88,27 +88,40 @@
   cursor: pointer;
 }
 
-.lyrics-card {
-  min-width: 200px;
-  max-width: min(78vw, 340px);
-  background: rgba(20,14,10,0.55);
-  border: 1px solid rgba(253,243,236,0.18);
-  border-radius: 14px;
-  padding: 10px 16px;
-  backdrop-filter: blur(6px);
+/* Lyrics trôi nổi tự do giữa bầu trời đêm/vũ trụ, không khung nền, không đi
+   theo vị trí gramophone — bồng bềnh nhẹ + toả glow như đang lơ lửng. */
+#lyrics-float-layer {
+  position: fixed;
+  left: 50%;
+  top: 14%;
+  transform: translateX(-50%);
+  z-index: 390;
+  display: none;
+  justify-content: center;
+  width: min(90vw, 480px);
+  pointer-events: none;
+  text-align: center;
 }
 .lyrics-line {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(14px, 3.4vw, 17px);
-  line-height: 1.4;
-  color: rgba(253,243,236,0.45);
-  min-height: 1.4em;
+  font-size: clamp(16px, 4vw, 21px);
+  line-height: 1.5;
+  color: rgba(253,243,236,0.4);
+  text-shadow: 0 0 14px rgba(180,200,255,0.35);
+  min-height: 1.5em;
+  animation: lyrics-float 5s ease-in-out infinite;
+}
+@keyframes lyrics-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 .lyrics-line .word {
-  color: rgba(253,243,236,0.45);
-  transition: color 0.15s ease;
+  color: rgba(253,243,236,0.4);
+  text-shadow: 0 0 10px rgba(180,200,255,0.25);
+  transition: color 0.15s ease, text-shadow 0.15s ease;
 }
 .lyrics-line .word.is-sung {
   color: var(--color-blush);
+  text-shadow: 0 0 16px rgba(255,182,213,0.7);
 }

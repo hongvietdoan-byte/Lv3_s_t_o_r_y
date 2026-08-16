@@ -17,6 +17,60 @@
   <!-- floating hearts overlay layer, populated by heartParticles.js -->
   <div id="heart-layer" aria-hidden="true"></div>
 
+  <!-- lyrics trôi nổi giữa bầu trời, độc lập vị trí với gramophone -->
+  <div id="lyrics-float-layer" aria-hidden="true">
+    <div class="lyrics-line" id="lyrics-line"></div>
+  </div>
+
+  <!-- GRAMOPHONE MUSIC PLAYER — hiện xuyên suốt từ scene flight trở đi -->
+  <div id="gramophone-player" class="gramophone">
+    <svg class="gramophone-svg" viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="woodGrain" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#b9895a"/>
+          <stop offset="1" stop-color="#6b4222"/>
+        </linearGradient>
+        <radialGradient id="hornGrad" cx="30%" cy="30%" r="80%">
+          <stop offset="0%" stop-color="#e0b87a"/>
+          <stop offset="100%" stop-color="#8a5a34"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="75" cy="164" rx="74" ry="15" fill="#1c1004" opacity="0.3"/>
+      <rect x="6" y="118" width="138" height="50" rx="12" fill="url(#woodGrain)"/>
+      <rect x="14" y="126" width="122" height="36" rx="7" fill="#4a2c15"/>
+      <circle cx="44" cy="144" r="11" fill="#d8b98a" stroke="#3a2313" stroke-width="2"/>
+      <circle cx="78" cy="144" r="11" fill="#d8b98a" stroke="#3a2313" stroke-width="2"/>
+      <g transform="translate(108,144)">
+        <g id="vinyl-group">
+          <circle r="26" fill="#141414"/>
+          <circle r="26" fill="none" stroke="#3a3a3a" stroke-width="1" opacity="0.7"/>
+          <circle r="20" fill="none" stroke="#3a3a3a" stroke-width="1" opacity="0.7"/>
+          <circle r="14" fill="none" stroke="#3a3a3a" stroke-width="1" opacity="0.7"/>
+          <circle r="8.5" fill="#e8c9a0"/>
+          <circle r="2.6" fill="#3a2317"/>
+        </g>
+      </g>
+      <g transform="translate(165,100)">
+        <g id="tonearm-group">
+          <circle r="7" fill="#e0b87a"/>
+          <rect x="-2.4" y="0" width="4.8" height="44" rx="2.4" fill="#e0b87a"/>
+          <circle cx="0" cy="44" r="3" fill="#3a2313"/>
+        </g>
+      </g>
+      <path d="M40 118 C 40 60, 62 44, 84 22 C 96 8, 116 4, 130 12 C 108 16, 94 28, 86 40 C 116 28, 138 32, 150 48 C 120 40, 102 50, 92 62 C 124 56, 144 68, 152 86 C 118 74, 100 84, 92 98 L 70 118 Z" fill="url(#hornGrad)" stroke="#6b4222" stroke-width="1.5"/>
+      <path d="M96 55 C 112 46, 128 48, 138 58" fill="none" stroke="#6b4222" stroke-width="1" opacity="0.5"/>
+      <path d="M84 78 C 100 70, 118 72, 128 82" fill="none" stroke="#6b4222" stroke-width="1" opacity="0.5"/>
+    </svg>
+    <div class="gramophone-controls">
+      <button type="button" class="gramophone-toggle" id="music-toggle" aria-label="Phát nhạc">
+        <span class="icon-play">▶</span>
+        <span class="icon-pause">❚❚</span>
+      </button>
+      <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.8" aria-label="Âm lượng">
+    </div>
+    <audio id="bg-audio" src="assets/audio/love-story.mp3" preload="none"></audio>
+  </div>
+
   <!-- ================= SCENE: PASSCODE ================= -->
   <section id="scene-passcode" class="scene">
     <div class="passcode-card">
@@ -41,114 +95,34 @@
     <p class="scene-caption">đến 00:00 · 03.09.2026 · giờ Hà Nội</p>
   </section>
 
-  <!-- ================= SCENE: GLOBE + FLIGHT ================= -->
+  <!-- ================= SCENE: GLOBE 3D + FLIGHT ================= -->
   <section id="scene-journey" class="scene">
     <p class="scene-eyebrow">một món quà đang trên đường đến với em...</p>
-    <div class="map-wrap">
-      <svg id="map-svg" class="map-svg" viewBox="0 0 640 440" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="spaceBg" cx="50%" cy="40%" r="75%">
-            <stop offset="0%" stop-color="#1b1740"/>
-            <stop offset="100%" stop-color="#07061a"/>
-          </radialGradient>
-          <radialGradient id="sphereBase" cx="34%" cy="28%" r="80%">
-            <stop offset="0%" stop-color="#6f93d6"/>
-            <stop offset="55%" stop-color="#3d5fa0"/>
-            <stop offset="100%" stop-color="#1c2c56"/>
-          </radialGradient>
-          <radialGradient id="sphereShade" cx="34%" cy="28%" r="78%">
-            <stop offset="0%" stop-color="#000018" stop-opacity="0"/>
-            <stop offset="62%" stop-color="#000018" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#000018" stop-opacity="0.6"/>
-          </radialGradient>
-          <linearGradient id="landGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#6fae6f"/>
-            <stop offset="100%" stop-color="#3f7d55"/>
-          </linearGradient>
-          <linearGradient id="rimGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#cfe0ff" stop-opacity="0.9"/>
-            <stop offset="45%" stop-color="#cfe0ff" stop-opacity="0.1"/>
-            <stop offset="100%" stop-color="#cfe0ff" stop-opacity="0"/>
-          </linearGradient>
-          <linearGradient id="contrailGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.55"/>
-          </linearGradient>
-          <clipPath id="globeClip"><circle cx="320" cy="220" r="175"/></clipPath>
-          <filter id="glowBlur" x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur stdDeviation="7"/>
-          </filter>
-        </defs>
-
-        <rect x="0" y="0" width="640" height="440" fill="url(#spaceBg)"/>
-        <!-- twinkling starfield behind the globe -->
-        <g id="journey-stars" fill="#ffffff" opacity="0.7">
-          <circle cx="60" cy="70" r="1.3"/><circle cx="120" cy="40" r="1"/><circle cx="40" cy="140" r="1.1"/>
-          <circle cx="580" cy="60" r="1.2"/><circle cx="600" cy="130" r="1"/><circle cx="560" cy="380" r="1.3"/>
-          <circle cx="90" cy="380" r="1"/><circle cx="30" cy="300" r="1.2"/><circle cx="610" cy="260" r="1"/>
-          <circle cx="320" cy="30" r="1.1"/><circle cx="200" cy="20" r="1"/><circle cx="440" cy="25" r="1"/>
-        </g>
-
-        <!-- outer atmosphere glow (stays fixed, not part of camera pan) -->
-        <circle cx="320" cy="220" r="182" fill="none" stroke="#8fb3ff" stroke-width="16" opacity="0.14" filter="url(#glowBlur)"/>
-
-        <!-- camera group: panned/scaled by js/flightTimeline.js for zoom choreography -->
-        <g id="globe-camera">
-          <g clip-path="url(#globeClip)">
-            <circle cx="320" cy="220" r="175" fill="url(#sphereBase)"/>
-            <g stroke="#dfe9ff" stroke-width="1" opacity="0.22" fill="none">
-              <ellipse cx="320" cy="220" rx="175" ry="55"/>
-              <ellipse cx="320" cy="220" rx="175" ry="110"/>
-              <ellipse cx="320" cy="220" rx="55" ry="175"/>
-              <ellipse cx="320" cy="220" rx="110" ry="175"/>
-              <line x1="320" y1="45" x2="320" y2="395"/>
-              <line x1="145" y1="220" x2="495" y2="220"/>
-            </g>
-            <!-- landmass: Europe/UK side (left) -->
-            <path d="M175,150 C155,155 148,175 158,195 C148,210 150,235 168,245 C158,265 168,290 190,295 C185,315 205,330 225,320 C245,330 265,315 260,295 C280,285 285,260 268,245 C282,225 275,200 255,195 C260,175 245,155 222,160 C210,145 188,140 175,150 Z" fill="url(#landGrad)"/>
-            <circle cx="145" cy="205" r="4" fill="url(#landGrad)"/>
-            <circle cx="153" cy="222" r="2.5" fill="url(#landGrad)"/>
-            <!-- landmass: Asia/Vietnam side (right) -->
-            <path d="M465,150 C485,155 492,175 482,195 C492,210 490,235 472,245 C482,265 472,290 450,295 C455,315 435,330 415,320 C395,330 375,315 380,295 C360,285 355,260 372,245 C358,225 365,200 385,195 C380,175 395,155 418,160 C430,145 452,140 465,150 Z" fill="url(#landGrad)"/>
-            <circle cx="502" cy="215" r="3" fill="url(#landGrad)"/>
-            <circle cx="508" cy="231" r="2" fill="url(#landGrad)"/>
-            <circle cx="320" cy="220" r="175" fill="url(#sphereShade)"/>
-            <ellipse cx="245" cy="150" rx="70" ry="42" fill="#ffffff" opacity="0.09"/>
+    <div class="map-wrap" id="map-wrap">
+      <canvas id="globe-canvas"></canvas>
+      <div id="plane-icon-2d" class="plane-icon-2d" aria-hidden="true">
+        <svg viewBox="-45 -26 90 52" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="contrailGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.6"/>
+            </linearGradient>
+          </defs>
+          <path d="M-42,0 Q-20,-1 0,0 L-40,3 Z" fill="url(#contrailGrad)" opacity="0.65"/>
+          <path d="M-22,-2 L-30,-15 L-24,-2 Z" fill="#d8dee8"/>
+          <path d="M-6,-2 L-17,-21 L-10,-21 L2,-3 Z" fill="#eef2f7"/>
+          <path d="M-6,2 L-17,21 L-10,21 L2,3 Z" fill="#c7d0dc"/>
+          <path d="M-25,-4 Q-25,-6 -21,-6 L15,-5 Q24,-3 28,0 Q24,3 15,5 L-21,6 Q-25,6 -25,4 Z" fill="#f4f7fb" stroke="#aeb9c9" stroke-width="0.6"/>
+          <ellipse cx="19" cy="-1" rx="3" ry="2" fill="#7fb8e0"/>
+          <circle cx="22" cy="1.5" r="1.3" fill="#2c2c2c"/>
+          <circle cx="24.5" cy="0.5" r="0.5" fill="#fff" opacity="0.8"/>
+          <ellipse cx="20" cy="4.5" rx="2.2" ry="1.3" fill="#ffb4c6" opacity="0.7"/>
+          <g fill="#9fb0c4">
+            <circle cx="6" cy="0" r="0.9"/><circle cx="1" cy="0" r="0.9"/><circle cx="-4" cy="0" r="0.9"/>
+            <circle cx="-9" cy="0" r="0.9"/><circle cx="-14" cy="0" r="0.9"/>
           </g>
-          <circle cx="320" cy="220" r="175" fill="none" stroke="url(#rimGrad)" stroke-width="2.5"/>
-
-          <!-- flight path arcing over the globe -->
-          <path id="flight-path" d="M445,235 C 400,55 240,55 195,235" fill="none" stroke="#f7cdd6" stroke-width="2" stroke-dasharray="6 8" opacity="0.85"/>
-
-          <!-- Lincoln pin (left landmass) -->
-          <g class="map-pin" transform="translate(195,235)">
-            <circle r="7" fill="#ff5c8a"/>
-            <circle r="7" fill="none" stroke="#ffe1ea" stroke-width="2" class="pin-pulse"/>
-            <text x="0" y="-16" text-anchor="middle" fill="#fdf3ec" font-family="Quicksand, sans-serif" font-size="15" font-weight="600">Lincoln, UK</text>
-          </g>
-
-          <!-- Hanoi pin (right landmass) -->
-          <g class="map-pin" transform="translate(445,235)">
-            <circle r="7" fill="#ffb84d"/>
-            <circle r="7" fill="none" stroke="#fff0d6" stroke-width="2" class="pin-pulse"/>
-            <text x="0" y="-16" text-anchor="middle" fill="#fdf3ec" font-family="Quicksand, sans-serif" font-size="15" font-weight="600">Hà Nội</text>
-          </g>
-
-          <!-- plane, animated along #flight-path via GSAP MotionPath, nose points +X at rest -->
-          <g id="plane-icon" transform="translate(445,235)" opacity="0">
-            <path d="M-40,0 Q-20,-1 0,0 L-38,3 Z" fill="url(#contrailGrad)" opacity="0.6"/>
-            <path d="M-22,-2 L-30,-14 L-24,-2 Z" fill="#d8dee8"/>
-            <path d="M-6,-2 L-16,-20 L-10,-20 L2,-3 Z" fill="#eef2f7"/>
-            <path d="M-6,2 L-16,20 L-10,20 L2,3 Z" fill="#c7d0dc"/>
-            <path d="M-24,-3 Q-24,-5 -20,-5 L14,-4 Q22,-3 26,0 Q22,3 14,4 L-20,5 Q-24,5 -24,3 Z" fill="#f4f7fb" stroke="#aeb9c9" stroke-width="0.6"/>
-            <ellipse cx="18" cy="0" rx="2.6" ry="1.6" fill="#7fb8e0"/>
-            <g fill="#9fb0c4">
-              <circle cx="6" cy="0" r="0.9"/><circle cx="1" cy="0" r="0.9"/><circle cx="-4" cy="0" r="0.9"/>
-              <circle cx="-9" cy="0" r="0.9"/><circle cx="-14" cy="0" r="0.9"/>
-            </g>
-          </g>
-        </g>
-      </svg>
+        </svg>
+      </div>
     </div>
   </section>
 
@@ -156,7 +130,7 @@
   <section id="scene-boxes" class="scene">
     <p class="scene-eyebrow">đã đến nơi rồi... chọn 1 hộp quà nhé</p>
     <div class="boxes-row" id="boxes-row">
-      <button type="button" class="pick-box" data-target="gallery" aria-label="Mở hộp kho ảnh">
+      <button type="button" class="pick-box" data-target="gallery" aria-label="Mở hộp quà 1">
         <svg viewBox="0 0 140 130" class="pick-box-svg pick-box-svg--gold" xmlns="http://www.w3.org/2000/svg">
           <rect x="10" y="55" width="120" height="65" rx="8" fill="#e0a94a"/>
           <rect x="10" y="55" width="120" height="18" fill="#c98f34"/>
@@ -168,10 +142,10 @@
             <path d="M70,34 C80,18 90,14 96,20 C90,26 80,30 70,34 Z" fill="#c98f34"/>
           </g>
         </svg>
-        <span class="pick-box-label">Kho ảnh 📷</span>
+        <span class="pick-box-label">Hộp quà 1</span>
       </button>
 
-      <button type="button" class="pick-box" data-target="bouquet" aria-label="Mở hộp bó hoa và thư">
+      <button type="button" class="pick-box" data-target="bouquet" aria-label="Mở hộp quà 2">
         <svg viewBox="0 0 140 130" class="pick-box-svg pick-box-svg--pink" xmlns="http://www.w3.org/2000/svg">
           <rect x="10" y="55" width="120" height="65" rx="8" fill="#f193b3"/>
           <rect x="10" y="55" width="120" height="18" fill="#e0679a"/>
@@ -183,10 +157,10 @@
             <path d="M70,34 C80,18 90,14 96,20 C90,26 80,30 70,34 Z" fill="#e0679a"/>
           </g>
         </svg>
-        <span class="pick-box-label">Bó hoa &amp; thư 💌</span>
+        <span class="pick-box-label">Hộp quà 2</span>
       </button>
 
-      <button type="button" class="pick-box" data-target="invite" aria-label="Mở hộp lời mời Disneyland">
+      <button type="button" class="pick-box" data-target="invite" aria-label="Mở hộp quà 3">
         <svg viewBox="0 0 140 130" class="pick-box-svg pick-box-svg--purple" xmlns="http://www.w3.org/2000/svg">
           <rect x="10" y="55" width="120" height="65" rx="8" fill="#9b83e0"/>
           <rect x="10" y="55" width="120" height="18" fill="#7d63c9"/>
@@ -198,7 +172,7 @@
             <path d="M70,34 C80,18 90,14 96,20 C90,26 80,30 70,34 Z" fill="#7d63c9"/>
           </g>
         </svg>
-        <span class="pick-box-label">Tương lai của mình 🏰</span>
+        <span class="pick-box-label">Hộp quà 3</span>
       </button>
     </div>
     <p class="boxes-hint">chạm để mở 🎁</p>
@@ -224,16 +198,18 @@
     <button type="button" class="back-to-boxes" data-back>← quay lại hộp quà</button>
     <p class="scene-eyebrow" id="gift-eyebrow">một bó hoa dành cho em...</p>
 
-    <div class="gift-stage" id="gift-stage">
+    <div class="bouquet-hero" id="bouquet-hero">
+      <div class="bouquet-glow" aria-hidden="true"></div>
       <svg class="wings-svg" viewBox="0 0 320 200" aria-hidden="true">
         <path d="M160,150 C120,120 40,120 10,80 C40,100 90,95 120,110 C90,80 50,70 30,40 C70,60 110,70 135,100 C125,70 100,50 95,20 C125,45 150,80 160,130 Z" fill="#fff7ea" opacity="0.85"/>
         <path d="M160,150 C200,120 280,120 310,80 C280,100 230,95 200,110 C230,80 270,70 290,40 C250,60 210,70 185,100 C195,70 220,50 225,20 C195,45 170,80 160,130 Z" fill="#fff7ea" opacity="0.85"/>
       </svg>
       <img src="assets/svg/bouquet.svg" class="bouquet" alt="bó hoa">
-      <button type="button" class="envelope-btn" id="envelope-btn" aria-label="Mở phong thư">
-        <img src="assets/svg/envelope-closed.svg" class="envelope-img" alt="phong thư">
-      </button>
     </div>
+
+    <button type="button" class="envelope-btn" id="envelope-btn" aria-label="Mở phong thư">
+      <img src="assets/svg/envelope-closed.svg" class="envelope-img" alt="phong thư">
+    </button>
     <p class="gift-hint" id="gift-hint">chạm vào phong thư nhé 👉</p>
 
     <div class="letter-stage" id="letter-stage">
@@ -295,38 +271,92 @@
     </div>
 
     <div id="ambient-bg" aria-hidden="true">
-      <svg id="castle-svg" class="ambient-castle" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+      <svg id="castle-svg" class="ambient-castle" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <radialGradient id="castleSky" cx="50%" cy="15%" r="90%">
-            <stop offset="0%" stop-color="#3a2f68"/>
-            <stop offset="60%" stop-color="#1c1638"/>
-            <stop offset="100%" stop-color="#0b0918"/>
-          </radialGradient>
+          <linearGradient id="castleSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1c1638"/>
+            <stop offset="32%" stop-color="#2c2160"/>
+            <stop offset="62%" stop-color="#4a2f72"/>
+            <stop offset="84%" stop-color="#7a3f6e"/>
+            <stop offset="100%" stop-color="#a8496a"/>
+          </linearGradient>
           <linearGradient id="towerGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#e9d6c3"/>
+            <stop offset="0%" stop-color="#efe0cf"/>
             <stop offset="100%" stop-color="#c9a98a"/>
           </linearGradient>
           <radialGradient id="windowGlow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="#ffe9a8" stop-opacity="1"/>
             <stop offset="100%" stop-color="#ffe9a8" stop-opacity="0"/>
           </radialGradient>
+          <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fff6d8" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#fff6d8" stop-opacity="0"/>
+          </radialGradient>
+          <pattern id="crenellation" width="26" height="16" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="15" height="16" fill="#c9a98a"/>
+          </pattern>
         </defs>
-        <rect x="0" y="0" width="900" height="500" fill="url(#castleSky)"/>
-        <g id="castle-window-glow" fill="url(#windowGlow)" opacity="0.9"></g>
-        <g id="castle-body" fill="url(#towerGrad)">
-          <rect x="80" y="300" width="740" height="180"/>
-          <rect x="150" y="220" width="90" height="260"/>
-          <polygon points="150,220 195,160 240,220" fill="#8a5a9e"/>
-          <rect x="660" y="220" width="90" height="260"/>
-          <polygon points="660,220 705,160 750,220" fill="#8a5a9e"/>
-          <rect x="330" y="170" width="80" height="310"/>
-          <polygon points="330,170 370,110 410,170" fill="#a4649f"/>
-          <rect x="490" y="170" width="80" height="310"/>
-          <polygon points="490,170 530,110 570,170" fill="#a4649f"/>
-          <rect x="400" y="90" width="140" height="390"/>
-          <polygon points="400,90 470,10 540,90" fill="#b56fa8"/>
-          <rect x="465" y="0" width="10" height="24" fill="#6b4a86"/>
+
+        <rect x="0" y="0" width="900" height="520" fill="url(#castleSky)"/>
+        <circle cx="740" cy="80" r="70" fill="url(#moonGlow)"/>
+        <circle cx="740" cy="80" r="30" fill="#fff8e2" opacity="0.9"/>
+        <g fill="#ffffff" opacity="0.5" filter="blur(1px)">
+          <ellipse cx="150" cy="60" rx="90" ry="14"/>
+          <ellipse cx="620" cy="150" rx="110" ry="12"/>
+          <ellipse cx="300" cy="40" rx="70" ry="10"/>
         </g>
+
+        <!-- tường thành + cổng vòm chân lâu đài -->
+        <rect x="50" y="352" width="800" height="150" fill="url(#towerGrad)"/>
+        <rect x="50" y="334" width="800" height="18" fill="url(#crenellation)"/>
+        <path d="M405,502 L405,430 A45,45 0 0 1 495,430 L495,502 Z" fill="#3a2340"/>
+        <path d="M405,502 L405,430 A45,45 0 0 1 495,430 L495,502 Z" fill="none" stroke="#6b4a86" stroke-width="4"/>
+
+        <g id="castle-window-glow" fill="url(#windowGlow)" opacity="0.9"></g>
+
+        <g id="castle-body">
+          <!-- tháp ngoài trái/phải -->
+          <rect x="108" y="290" width="66" height="212" fill="url(#towerGrad)"/>
+          <rect x="104" y="278" width="74" height="14" fill="url(#towerGrad)"/>
+          <polygon points="108,278 141,205 174,278" fill="#8a5a9e"/>
+          <rect x="726" y="290" width="66" height="212" fill="url(#towerGrad)"/>
+          <rect x="722" y="278" width="74" height="14" fill="url(#towerGrad)"/>
+          <polygon points="726,278 759,205 792,278" fill="#8a5a9e"/>
+
+          <!-- tháp giữa trái/phải -->
+          <rect x="248" y="222" width="70" height="280" fill="url(#towerGrad)"/>
+          <rect x="244" y="210" width="78" height="14" fill="url(#towerGrad)"/>
+          <polygon points="248,210 283,132 318,210" fill="#a4649f"/>
+          <rect x="279" y="118" width="8" height="20" fill="#6b4a86"/>
+          <path d="M287,118 L287,102 L303,110 Z" fill="#c9a98a"/>
+          <rect x="582" y="222" width="70" height="280" fill="url(#towerGrad)"/>
+          <rect x="578" y="210" width="78" height="14" fill="url(#towerGrad)"/>
+          <polygon points="582,210 617,132 652,210" fill="#a4649f"/>
+          <rect x="613" y="118" width="8" height="20" fill="#6b4a86"/>
+          <path d="M621,118 L621,102 L637,110 Z" fill="#c9a98a"/>
+
+          <!-- tháp trong trái/phải -->
+          <rect x="360" y="168" width="62" height="334" fill="url(#towerGrad)"/>
+          <rect x="356" y="156" width="70" height="14" fill="url(#towerGrad)"/>
+          <polygon points="360,156 391,84 422,156" fill="#b56fa8"/>
+
+          <rect x="478" y="168" width="62" height="334" fill="url(#towerGrad)"/>
+          <rect x="474" y="156" width="70" height="14" fill="url(#towerGrad)"/>
+          <polygon points="478,156 509,84 540,156" fill="#b56fa8"/>
+
+          <!-- tháp trung tâm, cao nhất, mái 2 tầng -->
+          <rect x="398" y="112" width="104" height="390" fill="url(#towerGrad)"/>
+          <rect x="392" y="98" width="116" height="16" fill="url(#towerGrad)"/>
+          <polygon points="398,98 450,20 502,98" fill="#c9769f"/>
+          <polygon points="420,45 450,-8 480,45" fill="#e08fb0"/>
+          <rect x="446" y="-18" width="8" height="18" fill="#6b4a86"/>
+          <path d="M454,-18 L454,-34 L472,-26 Z" fill="#f2c1d8"/>
+
+          <!-- chi tiết viền cửa sổ lớn kiểu hoa hồng ở tháp trung tâm -->
+          <circle cx="450" cy="230" r="26" fill="none" stroke="#8a5a9e" stroke-width="4" opacity="0.6"/>
+          <circle cx="450" cy="230" r="17" fill="none" stroke="#8a5a9e" stroke-width="2" opacity="0.5"/>
+        </g>
+
         <g id="castle-windows" fill="#5a3a52"></g>
       </svg>
       <div id="fireworks-layer" aria-hidden="true"></div>
@@ -372,72 +402,21 @@
     </div>
 
     <p class="invite-caption" id="invite-caption">(lời mời đi Disneyland sẽ được cập nhật sau — chờ ngày mình cùng nắm tay nhau ở đó nhé 🏰)</p>
-
-    <!-- GRAMOPHONE MUSIC PLAYER -->
-    <div id="gramophone-player" class="gramophone">
-      <svg class="gramophone-svg" viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="woodGrain" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#b9895a"/>
-            <stop offset="1" stop-color="#6b4222"/>
-          </linearGradient>
-          <radialGradient id="hornGrad" cx="30%" cy="30%" r="80%">
-            <stop offset="0%" stop-color="#e0b87a"/>
-            <stop offset="100%" stop-color="#8a5a34"/>
-          </radialGradient>
-        </defs>
-        <ellipse cx="75" cy="164" rx="74" ry="15" fill="#1c1004" opacity="0.3"/>
-        <rect x="6" y="118" width="138" height="50" rx="12" fill="url(#woodGrain)"/>
-        <rect x="14" y="126" width="122" height="36" rx="7" fill="#4a2c15"/>
-        <circle cx="44" cy="144" r="11" fill="#d8b98a" stroke="#3a2313" stroke-width="2"/>
-        <circle cx="78" cy="144" r="11" fill="#d8b98a" stroke="#3a2313" stroke-width="2"/>
-        <g transform="translate(108,144)">
-          <g id="vinyl-group">
-            <circle r="26" fill="#141414"/>
-            <circle r="26" fill="none" stroke="#3a3a3a" stroke-width="1" opacity="0.7"/>
-            <circle r="20" fill="none" stroke="#3a3a3a" stroke-width="1" opacity="0.7"/>
-            <circle r="14" fill="none" stroke="#3a3a3a" stroke-width="1" opacity="0.7"/>
-            <circle r="8.5" fill="#e8c9a0"/>
-            <circle r="2.6" fill="#3a2317"/>
-          </g>
-        </g>
-        <g transform="translate(165,100)">
-          <g id="tonearm-group">
-            <circle r="7" fill="#e0b87a"/>
-            <rect x="-2.4" y="0" width="4.8" height="44" rx="2.4" fill="#e0b87a"/>
-            <circle cx="0" cy="44" r="3" fill="#3a2313"/>
-          </g>
-        </g>
-        <path d="M40 118 C 40 60, 62 44, 84 22 C 96 8, 116 4, 130 12 C 108 16, 94 28, 86 40 C 116 28, 138 32, 150 48 C 120 40, 102 50, 92 62 C 124 56, 144 68, 152 86 C 118 74, 100 84, 92 98 L 70 118 Z" fill="url(#hornGrad)" stroke="#6b4222" stroke-width="1.5"/>
-        <path d="M96 55 C 112 46, 128 48, 138 58" fill="none" stroke="#6b4222" stroke-width="1" opacity="0.5"/>
-        <path d="M84 78 C 100 70, 118 72, 128 82" fill="none" stroke="#6b4222" stroke-width="1" opacity="0.5"/>
-      </svg>
-      <div class="gramophone-controls">
-        <button type="button" class="gramophone-toggle" id="music-toggle" aria-label="Phát nhạc">
-          <span class="icon-play">▶</span>
-          <span class="icon-pause">❚❚</span>
-        </button>
-        <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.8" aria-label="Âm lượng">
-      </div>
-      <div class="lyrics-card" id="lyrics-card">
-        <div class="lyrics-line" id="lyrics-line"></div>
-      </div>
-      <audio id="bg-audio" src="assets/audio/love-story.mp3" preload="none"></audio>
-    </div>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
   <script src="js/lyrics.js"></script>
   <script src="js/heartParticles.js"></script>
   <script src="js/countdown.js"></script>
+  <script src="js/musicPlayer.js"></script>
   <script src="js/flightTimeline.js"></script>
   <script src="js/giftReveal.js"></script>
   <script src="js/quizGate.js"></script>
   <script src="js/letterData.js"></script>
   <script src="js/letterReveal.js"></script>
   <script src="js/fireworks.js"></script>
-  <script src="js/musicPlayer.js"></script>
   <script src="js/main.js"></script>
   <script src="js/passcode.js"></script>
 </body>

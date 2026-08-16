@@ -6,20 +6,23 @@
     var glowGroup = document.getElementById('castle-window-glow');
     if (!windowsGroup || !glowGroup || windowsGroup.childElementCount) return;
     var blocks = [
-      { x: 90, y: 320, w: 720, h: 150 },
-      { x: 158, y: 235, w: 74, h: 235 },
-      { x: 668, y: 235, w: 74, h: 235 },
-      { x: 338, y: 185, w: 64, h: 285 },
-      { x: 498, y: 185, w: 64, h: 285 },
-      { x: 410, y: 105, w: 120, h: 365 }
+      { x: 70, y: 365, w: 310, h: 55 },
+      { x: 520, y: 365, w: 310, h: 55 },
+      { x: 112, y: 296, w: 62, h: 200 },
+      { x: 730, y: 296, w: 62, h: 200 },
+      { x: 252, y: 228, w: 66, h: 268 },
+      { x: 586, y: 228, w: 66, h: 268 },
+      { x: 364, y: 174, w: 58, h: 322 },
+      { x: 482, y: 174, w: 58, h: 322 },
+      { x: 402, y: 118, w: 96, h: 378 }
     ];
     var svgns = 'http://www.w3.org/2000/svg';
     blocks.forEach(function (b) {
-      var cols = Math.max(2, Math.round(b.w / 26));
-      var rows = Math.max(2, Math.round(b.h / 30));
+      var cols = Math.max(2, Math.round(b.w / 24));
+      var rows = Math.max(2, Math.round(b.h / 28));
       for (var r = 0; r < rows; r++) {
         for (var c = 0; c < cols; c++) {
-          if (Math.random() < 0.35) continue;
+          if (Math.random() < 0.22) continue;
           var wx = b.x + (c + 0.5) * (b.w / cols);
           var wy = b.y + (r + 0.5) * (b.h / rows);
           var rect = document.createElementNS(svgns, 'rect');
@@ -29,12 +32,19 @@
           rect.setAttribute('height', 8);
           rect.setAttribute('rx', 1.5);
           windowsGroup.appendChild(rect);
-          if (Math.random() < 0.55) {
-            var glow = document.createElementNS(svgns, 'circle');
-            glow.setAttribute('cx', wx);
-            glow.setAttribute('cy', wy);
-            glow.setAttribute('r', 9);
-            glowGroup.appendChild(glow);
+          if (Math.random() < 0.65) {
+            // glow đôi: quầng sát + quầng lan toả xa hơn cho cảm giác lung linh
+            var glowNear = document.createElementNS(svgns, 'circle');
+            glowNear.setAttribute('cx', wx);
+            glowNear.setAttribute('cy', wy);
+            glowNear.setAttribute('r', 6);
+            glowGroup.appendChild(glowNear);
+            var glowFar = document.createElementNS(svgns, 'circle');
+            glowFar.setAttribute('cx', wx);
+            glowFar.setAttribute('cy', wy);
+            glowFar.setAttribute('r', 13);
+            glowFar.setAttribute('opacity', '0.5');
+            glowGroup.appendChild(glowFar);
           }
         }
       }

@@ -112,17 +112,19 @@
   background: radial-gradient(ellipse at 50% 40%, #23345a 0%, var(--color-night) 60%, var(--color-night-deep) 100%);
 }
 .map-wrap {
-  width: min(92vw, 640px);
+  position: relative;
+  width: min(94vw, 640px);
   aspect-ratio: 16 / 11;
 }
-.map-svg { width: 100%; height: 100%; }
-.pin-pulse {
-  transform-origin: center;
-  animation: pin-pulse 1.8s ease-out infinite;
-}
-@keyframes pin-pulse {
-  0% { r: 7; opacity: 0.9; }
-  100% { r: 18; opacity: 0; }
+#globe-canvas { width: 100%; height: 100%; display: block; }
+.plane-icon-2d {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 68px;
+  opacity: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
 }
 
 /* ================= 3 HỘP QUÀ ================= */
@@ -212,42 +214,66 @@
   overflow: hidden;
   background: radial-gradient(ellipse at 50% 30%, #2c2350 0%, var(--color-night) 55%, var(--color-night-deep) 100%);
 }
-.gift-stage {
-  position: relative;
-  width: min(80vw, 360px);
-  height: min(80vw, 360px);
+#scene-box-bouquet .scene-eyebrow {
+  position: absolute;
+  z-index: 5;
+  top: max(18px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+}
+.bouquet-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+}
+.bouquet-glow {
+  position: absolute;
+  width: 130%;
+  height: 130%;
+  background: radial-gradient(circle, rgba(255,170,205,0.4) 0%, rgba(255,170,205,0) 65%);
+  filter: blur(6px);
 }
 .wings-svg {
   position: absolute;
-  width: 155%;
-  top: -22%;
-  z-index: 1;
-  opacity: 0.9;
-  animation: wings-breathe 3.6s ease-in-out infinite;
-}
-@keyframes wings-breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-.bouquet {
-  position: absolute;
   width: 92%;
-  bottom: 2%;
-  z-index: 3;
-  filter: drop-shadow(0 12px 18px rgba(0,0,0,0.35));
+  top: 6%;
+  opacity: 0.9;
 }
+.bouquet {
+  position: relative;
+  width: min(92vw, 92vh, 620px);
+  filter: drop-shadow(0 24px 34px rgba(0,0,0,0.45));
+  animation: bouquet-breathe 4.5s ease-in-out infinite;
+  transform-origin: 50% 85%;
+}
+@keyframes bouquet-breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.025) rotate(0.6deg); }
+}
+
 .envelope-btn {
   position: absolute;
-  width: 30%;
-  bottom: 6%;
-  z-index: 2;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+  bottom: 9%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(28vw, 130px);
+  z-index: 5;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,0.55));
   transition: transform 0.25s ease;
 }
-.envelope-btn:hover { transform: scale(1.05) rotate(-2deg); }
+.envelope-btn:hover { transform: translateX(-50%) scale(1.05) rotate(-2deg); }
 .envelope-img { width: 100%; }
 
 .gift-hint {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
   font-family: var(--font-ui);
   font-size: 14px;
   color: var(--color-blush);
@@ -265,8 +291,10 @@
   justify-content: center;
 }
 body[data-scene="letter"] #letter-stage { display: flex; }
-body[data-scene="letter"] #gift-stage,
-body[data-scene="letter"] #gift-hint { display: none; }
+body[data-scene="letter"] #bouquet-hero,
+body[data-scene="letter"] #envelope-btn,
+body[data-scene="letter"] #gift-hint,
+body[data-scene="letter"] #gift-eyebrow { display: none; }
 
 .scroll-rolled {
   position: relative;
@@ -442,7 +470,7 @@ body[data-scene="letter"] #gift-hint { display: none; }
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(160vw, 1100px);
+  width: min(200vw, 1500px);
 }
 #fireworks-layer {
   position: absolute;

@@ -1,21 +1,33 @@
 (function () {
+  var audio, player;
+
+  // Dùng chung giữa nút bấm thủ công và lệnh tự phát khi máy bay bắt đầu bay
+  // (js/flightTimeline.js). Trình duyệt cho phép play() có âm thanh vì người
+  // dùng đã tương tác trước đó (bấm nút mở khoá passcode).
+  window.playMusic = function () {
+    if (!audio) return;
+    audio.play().catch(function () { /* bị chặn thì chờ user bấm nút thủ công */ });
+    if (player) player.classList.add('is-playing');
+  };
+
+  window.pauseMusic = function () {
+    if (!audio) return;
+    audio.pause();
+    if (player) player.classList.remove('is-playing');
+  };
+
   document.addEventListener('DOMContentLoaded', function () {
     var toggle = document.getElementById('music-toggle');
-    var player = document.getElementById('gramophone-player');
-    var audio = document.getElementById('bg-audio');
+    player = document.getElementById('gramophone-player');
+    audio = document.getElementById('bg-audio');
     var lyricsEl = document.getElementById('lyrics-line');
     var volumeSlider = document.getElementById('volume-slider');
 
     audio.volume = volumeSlider ? parseFloat(volumeSlider.value) : 0.8;
 
     toggle.addEventListener('click', function () {
-      if (audio.paused) {
-        audio.play().catch(function () { /* autoplay bị chặn, chờ user bấm lại */ });
-        player.classList.add('is-playing');
-      } else {
-        audio.pause();
-        player.classList.remove('is-playing');
-      }
+      if (audio.paused) window.playMusic();
+      else window.pauseMusic();
     });
 
     if (volumeSlider) {
