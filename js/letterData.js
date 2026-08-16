@@ -1,0 +1,5 @@
+// Tự động sinh bởi tools/encrypt-letter.js — KHÔNG chỉnh tay, không chứa plaintext.
+window.LETTER_CIPHERTEXT = {
+  iv: "G3RlI8x2Tt6BDqNh",
+  data: "FOSIB2Sf6uXrp46jcQ8JG7bYRAxmzHZJPfT3sY1rPnWMJVv3H7Bl35dI6nyxBjUMgX8EAZ8sxhGP1kMR6VW5WOxJkBWrwyHnxn0uRjCa0DCRawwpNMB7xMULwKK4xodjPAPvp7REl7LpJ2uOH/LTkbGtDkogYq5Njh5yrkdRtGs+OniJgiNESmthcHvpFcR6kDz0RtoNmHEZPQzVvA2enjsZGa1dPmnf9DKpqvCGCjQfSHdZ2NqLqivt50IQIHuJibEDVz11QxcUnxKJeNsyknfjqeR9Swau7Y8afxv0pI6FLR0t5vGBS4ImazlgY24hOdXmtgiQIu0+SB1OJbhXiOq1wrzfZCJrRsR/mgg90Ztc8aXDweyVsYDLsB9rdfxzo+bvbG5bpLa2CuELgDlDrW8iOD3KCaNXZQa/x+O5qYDU4VCQG1GTQYCOC5icCFlgya3fH1jWAYhnvHuSEDZR6t2Oaurn2mEhA3GMwawlKYHpoX4bj3gVgA=="
+};

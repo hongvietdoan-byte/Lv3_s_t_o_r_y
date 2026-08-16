@@ -30,11 +30,23 @@
     }
   };
 
+  // Chỉ dùng để test cục bộ khi bỏ qua màn passcode qua ?debug=; không phải cơ chế
+  // bảo mật thật — người nhận thật luôn phải qua đúng passcode ở js/passcode.js.
+  var DEBUG_PASSCODE = 'anhyeuem';
+
   document.addEventListener('DOMContentLoaded', function () {
     var params = new URLSearchParams(location.search);
     var debugScene = params.get('debug');
     if (debugScene) {
-      window.initExperience(resolveScene(debugScene));
+      var start = function () { window.initExperience(resolveScene(debugScene)); };
+      if (window.deriveLoveKey) {
+        window.deriveLoveKey(DEBUG_PASSCODE).then(function (key) {
+          window.__loveKey = key;
+          start();
+        });
+      } else {
+        start();
+      }
     }
   });
 })();

@@ -1,21 +1,36 @@
 (function () {
-  // TODO: thay nội dung thư thật vào đây khi có, giữ nguyên cấu trúc mảng từng dòng.
-  var PLACEHOLDER_LETTER = [
-    'Gửi em,',
-    '(Đây là đoạn thư mẫu để xem trước bố cục —',
-    'nội dung thật sẽ được thay vào đây sau nhé.)',
-    'Từ Hà Nội xa xôi, có một người vẫn luôn nghĩ về em mỗi ngày.',
-    'Mong một ngày không xa mình sẽ được nắm tay nhau đi dạo,',
-    'giống như Bubu và Dudu phía sau kia vậy.',
-    'Yêu em, nhiều lắm.'
-  ];
+  var FALLBACK_LINES = ['(chưa mở khoá được thư — thử tải lại trang và nhập đúng passcode nhé)'];
+
+  function base64ToBytes(b64) {
+    var bin = atob(b64);
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return bytes;
+  }
+
+  // Thư được mã hoá AES-GCM (js/letterData.js), khoá suy ra từ passcode lúc mở khoá
+  // (window.__loveKey, gán trong js/passcode.js). Không có đúng passcode thì không
+  // giải mã được, kể cả khi đọc thẳng source công khai trên GitHub.
+  async function decryptLetter() {
+    if (!window.LETTER_CIPHERTEXT || !window.__loveKey) return FALLBACK_LINES;
+    try {
+      var iv = base64ToBytes(window.LETTER_CIPHERTEXT.iv);
+      var data = base64ToBytes(window.LETTER_CIPHERTEXT.data);
+      var plainBuf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, window.__loveKey, data);
+      var text = new TextDecoder().decode(plainBuf);
+      return text.split('\n').filter(function (line) { return line.trim().length > 0; });
+    } catch (e) {
+      return FALLBACK_LINES;
+    }
+  }
 
   var opened = false;
 
-  function revealLetterLines() {
+  async function revealLetterLines() {
     var container = document.getElementById('letter-text');
+    var lines = await decryptLetter();
     container.innerHTML = '';
-    PLACEHOLDER_LETTER.forEach(function (text) {
+    lines.forEach(function (text) {
       var span = document.createElement('span');
       span.className = 'line';
       span.textContent = text;
