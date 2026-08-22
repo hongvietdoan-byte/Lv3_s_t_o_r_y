@@ -100,29 +100,7 @@
     <p class="scene-eyebrow">một món quà đang trên đường đến với em...</p>
     <div class="map-wrap" id="map-wrap">
       <canvas id="globe-canvas"></canvas>
-      <div id="plane-icon-2d" class="plane-icon-2d" aria-hidden="true">
-        <svg viewBox="-45 -26 90 52" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="contrailGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
-              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.6"/>
-            </linearGradient>
-          </defs>
-          <path d="M-42,0 Q-20,-1 0,0 L-40,3 Z" fill="url(#contrailGrad)" opacity="0.65"/>
-          <path d="M-22,-2 L-30,-15 L-24,-2 Z" fill="#d8dee8"/>
-          <path d="M-6,-2 L-17,-21 L-10,-21 L2,-3 Z" fill="#eef2f7"/>
-          <path d="M-6,2 L-17,21 L-10,21 L2,3 Z" fill="#c7d0dc"/>
-          <path d="M-25,-4 Q-25,-6 -21,-6 L15,-5 Q24,-3 28,0 Q24,3 15,5 L-21,6 Q-25,6 -25,4 Z" fill="#f4f7fb" stroke="#aeb9c9" stroke-width="0.6"/>
-          <ellipse cx="19" cy="-1" rx="3" ry="2" fill="#7fb8e0"/>
-          <circle cx="22" cy="1.5" r="1.3" fill="#2c2c2c"/>
-          <circle cx="24.5" cy="0.5" r="0.5" fill="#fff" opacity="0.8"/>
-          <ellipse cx="20" cy="4.5" rx="2.2" ry="1.3" fill="#ffb4c6" opacity="0.7"/>
-          <g fill="#9fb0c4">
-            <circle cx="6" cy="0" r="0.9"/><circle cx="1" cy="0" r="0.9"/><circle cx="-4" cy="0" r="0.9"/>
-            <circle cx="-9" cy="0" r="0.9"/><circle cx="-14" cy="0" r="0.9"/>
-          </g>
-        </svg>
-      </div>
+      <div id="journey-labels" class="journey-labels" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -180,7 +158,7 @@
 
   <!-- ================= SCENE: HỘP 1 — KHO ẢNH ================= -->
   <section id="scene-box-gallery" class="scene">
-    <button type="button" class="back-to-boxes" data-back>← quay lại hộp quà</button>
+    <button type="button" class="back-to-boxes" data-back>← <span class="back-to-boxes-label">quay lại hộp quà</span></button>
     <p class="scene-eyebrow">những khoảnh khắc của chúng mình</p>
     <div class="gallery-grid">
       <div class="gallery-frame"><span>📷</span></div>
@@ -195,19 +173,15 @@
 
   <!-- ================= SCENE: HỘP 2 — BÓ HOA + THƯ ================= -->
   <section id="scene-box-bouquet" class="scene">
-    <button type="button" class="back-to-boxes" data-back>← quay lại hộp quà</button>
+    <button type="button" class="back-to-boxes" data-back>← <span class="back-to-boxes-label">quay lại hộp quà</span></button>
     <p class="scene-eyebrow" id="gift-eyebrow">một bó hoa dành cho em...</p>
 
     <div class="bouquet-hero" id="bouquet-hero">
       <div class="bouquet-glow" aria-hidden="true"></div>
-      <svg class="wings-svg" viewBox="0 0 320 200" aria-hidden="true">
-        <path d="M160,150 C120,120 40,120 10,80 C40,100 90,95 120,110 C90,80 50,70 30,40 C70,60 110,70 135,100 C125,70 100,50 95,20 C125,45 150,80 160,130 Z" fill="#fff7ea" opacity="0.85"/>
-        <path d="M160,150 C200,120 280,120 310,80 C280,100 230,95 200,110 C230,80 270,70 290,40 C250,60 210,70 185,100 C195,70 220,50 225,20 C195,45 170,80 160,130 Z" fill="#fff7ea" opacity="0.85"/>
-      </svg>
-      <img src="assets/svg/bouquet.svg" class="bouquet" alt="bó hoa">
+      <canvas id="bouquet-canvas"></canvas>
     </div>
 
-    <button type="button" class="envelope-btn" id="envelope-btn" aria-label="Mở phong thư">
+    <button type="button" class="envelope-btn envelope-btn--tucked" id="envelope-btn" aria-label="Mở phong thư">
       <img src="assets/svg/envelope-closed.svg" class="envelope-img" alt="phong thư">
     </button>
     <p class="gift-hint" id="gift-hint">chạm vào phong thư nhé 👉</p>
@@ -260,7 +234,7 @@
 
   <!-- ================= SCENE: HỘP 3 — LỜI MỜI DISNEYLAND ================= -->
   <section id="scene-box-invite" class="scene">
-    <button type="button" class="back-to-boxes" data-back>← quay lại hộp quà</button>
+    <button type="button" class="back-to-boxes" data-back>← <span class="back-to-boxes-label">quay lại hộp quà</span></button>
 
     <div class="anniversary-line">
       <span>03.09.2024</span>
@@ -271,148 +245,62 @@
     </div>
 
     <div id="ambient-bg" aria-hidden="true">
-      <svg id="castle-svg" class="ambient-castle" viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="castleSky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1c1638"/>
-            <stop offset="32%" stop-color="#2c2160"/>
-            <stop offset="62%" stop-color="#4a2f72"/>
-            <stop offset="84%" stop-color="#7a3f6e"/>
-            <stop offset="100%" stop-color="#a8496a"/>
-          </linearGradient>
-          <linearGradient id="towerGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#efe0cf"/>
-            <stop offset="100%" stop-color="#c9a98a"/>
-          </linearGradient>
-          <radialGradient id="windowGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ffe9a8" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#ffe9a8" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#fff6d8" stop-opacity="0.9"/>
-            <stop offset="100%" stop-color="#fff6d8" stop-opacity="0"/>
-          </radialGradient>
-          <pattern id="crenellation" width="26" height="16" patternUnits="userSpaceOnUse">
-            <rect x="0" y="0" width="15" height="16" fill="#c9a98a"/>
-          </pattern>
-        </defs>
-
-        <rect x="0" y="0" width="900" height="520" fill="url(#castleSky)"/>
-        <circle cx="740" cy="80" r="70" fill="url(#moonGlow)"/>
-        <circle cx="740" cy="80" r="30" fill="#fff8e2" opacity="0.9"/>
-        <g fill="#ffffff" opacity="0.5" filter="blur(1px)">
-          <ellipse cx="150" cy="60" rx="90" ry="14"/>
-          <ellipse cx="620" cy="150" rx="110" ry="12"/>
-          <ellipse cx="300" cy="40" rx="70" ry="10"/>
-        </g>
-
-        <!-- tường thành + cổng vòm chân lâu đài -->
-        <rect x="50" y="352" width="800" height="150" fill="url(#towerGrad)"/>
-        <rect x="50" y="334" width="800" height="18" fill="url(#crenellation)"/>
-        <path d="M405,502 L405,430 A45,45 0 0 1 495,430 L495,502 Z" fill="#3a2340"/>
-        <path d="M405,502 L405,430 A45,45 0 0 1 495,430 L495,502 Z" fill="none" stroke="#6b4a86" stroke-width="4"/>
-
-        <g id="castle-window-glow" fill="url(#windowGlow)" opacity="0.9"></g>
-
-        <g id="castle-body">
-          <!-- tháp ngoài trái/phải -->
-          <rect x="108" y="290" width="66" height="212" fill="url(#towerGrad)"/>
-          <rect x="104" y="278" width="74" height="14" fill="url(#towerGrad)"/>
-          <polygon points="108,278 141,205 174,278" fill="#8a5a9e"/>
-          <rect x="726" y="290" width="66" height="212" fill="url(#towerGrad)"/>
-          <rect x="722" y="278" width="74" height="14" fill="url(#towerGrad)"/>
-          <polygon points="726,278 759,205 792,278" fill="#8a5a9e"/>
-
-          <!-- tháp giữa trái/phải -->
-          <rect x="248" y="222" width="70" height="280" fill="url(#towerGrad)"/>
-          <rect x="244" y="210" width="78" height="14" fill="url(#towerGrad)"/>
-          <polygon points="248,210 283,132 318,210" fill="#a4649f"/>
-          <rect x="279" y="118" width="8" height="20" fill="#6b4a86"/>
-          <path d="M287,118 L287,102 L303,110 Z" fill="#c9a98a"/>
-          <rect x="582" y="222" width="70" height="280" fill="url(#towerGrad)"/>
-          <rect x="578" y="210" width="78" height="14" fill="url(#towerGrad)"/>
-          <polygon points="582,210 617,132 652,210" fill="#a4649f"/>
-          <rect x="613" y="118" width="8" height="20" fill="#6b4a86"/>
-          <path d="M621,118 L621,102 L637,110 Z" fill="#c9a98a"/>
-
-          <!-- tháp trong trái/phải -->
-          <rect x="360" y="168" width="62" height="334" fill="url(#towerGrad)"/>
-          <rect x="356" y="156" width="70" height="14" fill="url(#towerGrad)"/>
-          <polygon points="360,156 391,84 422,156" fill="#b56fa8"/>
-
-          <rect x="478" y="168" width="62" height="334" fill="url(#towerGrad)"/>
-          <rect x="474" y="156" width="70" height="14" fill="url(#towerGrad)"/>
-          <polygon points="478,156 509,84 540,156" fill="#b56fa8"/>
-
-          <!-- tháp trung tâm, cao nhất, mái 2 tầng -->
-          <rect x="398" y="112" width="104" height="390" fill="url(#towerGrad)"/>
-          <rect x="392" y="98" width="116" height="16" fill="url(#towerGrad)"/>
-          <polygon points="398,98 450,20 502,98" fill="#c9769f"/>
-          <polygon points="420,45 450,-8 480,45" fill="#e08fb0"/>
-          <rect x="446" y="-18" width="8" height="18" fill="#6b4a86"/>
-          <path d="M454,-18 L454,-34 L472,-26 Z" fill="#f2c1d8"/>
-
-          <!-- chi tiết viền cửa sổ lớn kiểu hoa hồng ở tháp trung tâm -->
-          <circle cx="450" cy="230" r="26" fill="none" stroke="#8a5a9e" stroke-width="4" opacity="0.6"/>
-          <circle cx="450" cy="230" r="17" fill="none" stroke="#8a5a9e" stroke-width="2" opacity="0.5"/>
-        </g>
-
-        <g id="castle-windows" fill="#5a3a52"></g>
-      </svg>
-      <div id="fireworks-layer" aria-hidden="true"></div>
-      <svg id="bubu-dudu" class="ambient-couple" viewBox="0 0 160 130" xmlns="http://www.w3.org/2000/svg">
-        <g id="dudu-figure" transform="translate(38,72)">
-          <ellipse cx="0" cy="46" rx="22" ry="4" fill="#3a2317" opacity="0.18"/>
-          <g id="dudu-leg-l"><rect x="-10" y="20" width="9" height="20" rx="4.5" fill="#c9955c"/></g>
-          <g id="dudu-leg-r"><rect x="1" y="20" width="9" height="20" rx="4.5" fill="#d6a468"/></g>
-          <ellipse cx="0" cy="10" rx="23" ry="24" fill="#e3b877"/>
-          <circle cx="0" cy="-24" r="19" fill="#e3b877"/>
-          <circle cx="-13" cy="-38" r="7" fill="#e3b877"/>
-          <circle cx="13" cy="-38" r="7" fill="#e3b877"/>
-          <circle cx="-13" cy="-38" r="3.6" fill="#c9955c"/>
-          <circle cx="13" cy="-38" r="3.6" fill="#c9955c"/>
-          <circle cx="-6.5" cy="-25" r="2.1" fill="#4a3428"/>
-          <circle cx="6.5" cy="-25" r="2.1" fill="#4a3428"/>
-          <circle cx="-9" cy="-19" r="3" fill="#f0a9a0" opacity="0.6"/>
-          <circle cx="9" cy="-19" r="3" fill="#f0a9a0" opacity="0.6"/>
-          <path d="M-5,-17 Q0,-13 5,-17" stroke="#4a3428" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-          <ellipse cx="0" cy="4" rx="9" ry="7" fill="#f6e2bd" opacity="0.7"/>
-          <g id="dudu-arm"><rect x="17" y="-4" width="8" height="20" rx="4" fill="#e3b877"/></g>
-        </g>
-        <g id="bubu-figure" transform="translate(78,74)">
-          <ellipse cx="0" cy="44" rx="22" ry="4" fill="#3a2317" opacity="0.18"/>
-          <g id="bubu-leg-l"><rect x="-10" y="18" width="9" height="20" rx="4.5" fill="#f3c1d3"/></g>
-          <g id="bubu-leg-r"><rect x="1" y="18" width="9" height="20" rx="4.5" fill="#f7cede"/></g>
-          <ellipse cx="0" cy="8" rx="21" ry="23" fill="#fbdce7"/>
-          <circle cx="0" cy="-24" r="18" fill="#fbdce7"/>
-          <circle cx="-12" cy="-37" r="6.5" fill="#fbdce7"/>
-          <circle cx="12" cy="-37" r="6.5" fill="#fbdce7"/>
-          <circle cx="-12" cy="-37" r="3.2" fill="#f3c1d3"/>
-          <circle cx="12" cy="-37" r="3.2" fill="#f3c1d3"/>
-          <circle cx="-6" cy="-25" r="2" fill="#7c4a52"/>
-          <circle cx="6" cy="-25" r="2" fill="#7c4a52"/>
-          <circle cx="-8.5" cy="-19" r="2.8" fill="#ff9db3" opacity="0.7"/>
-          <circle cx="8.5" cy="-19" r="2.8" fill="#ff9db3" opacity="0.7"/>
-          <path d="M-4,-17.5 Q0,-14.5 4,-17.5" stroke="#7c4a52" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-          <ellipse cx="0" cy="1" rx="8" ry="6.5" fill="#fff0f4" opacity="0.8"/>
-          <g id="bubu-arm"><rect x="-25" y="-6" width="8" height="20" rx="4" fill="#fbdce7"/></g>
-        </g>
-        <rect x="70" y="10" width="10" height="8" rx="3.5" fill="#f3c1d3"/>
-      </svg>
+      <div class="invite-kenburns" id="invite-kenburns">
+        <div class="invite-sky"></div>
+        <div class="stars"></div>
+        <div class="castle-wrap" id="castle-wrap">
+          <img src="assets/img/cutout/castle-cutout.png" class="castle-cutout" alt="">
+          <div id="castle-window-lights" aria-hidden="true">
+            <span class="castle-window" style="left:76%;top:25%;animation-delay:0s"></span>
+            <span class="castle-window" style="left:37%;top:45%;animation-delay:0.5s"></span>
+            <span class="castle-window" style="left:37%;top:51%;animation-delay:0.9s"></span>
+            <span class="castle-window" style="left:63%;top:40%;animation-delay:1.4s"></span>
+            <span class="castle-window" style="left:30%;top:60%;animation-delay:1.8s"></span>
+            <span class="castle-window" style="left:46%;top:60%;animation-delay:2.3s"></span>
+            <span class="castle-window" style="left:18%;top:65%;animation-delay:2.7s"></span>
+            <span class="castle-window" style="left:58%;top:60%;animation-delay:3.1s"></span>
+          </div>
+        </div>
+        <div id="fireworks-layer" aria-hidden="true"></div>
+      </div>
+      <div class="invite-sparkles" aria-hidden="true">
+        <span class="iv-sparkle" style="top:10%;left:16%;animation-delay:0s"></span>
+        <span class="iv-sparkle" style="top:6%;left:82%;animation-delay:0.9s"></span>
+        <span class="iv-sparkle" style="top:22%;left:50%;animation-delay:1.7s"></span>
+        <span class="iv-sparkle" style="top:32%;left:38%;animation-delay:0.4s"></span>
+        <span class="iv-sparkle" style="top:28%;left:64%;animation-delay:2.3s"></span>
+        <span class="iv-sparkle" style="top:15%;left:30%;animation-delay:1.2s"></span>
+        <span class="iv-sparkle" style="top:18%;left:70%;animation-delay:2.8s"></span>
+      </div>
+      <div class="invite-flash" id="invite-flash"></div>
+      <div class="ambient-couple" id="ambient-couple">
+        <div class="couple-shadow"></div>
+        <div class="couple-bob" id="couple-bob">
+          <img src="assets/img/cutout/bubu-dudu-cutout.png" class="couple-img" alt="Bubu Dudu">
+          <div class="couple-tint"></div>
+        </div>
+      </div>
     </div>
 
     <p class="invite-caption" id="invite-caption">(lời mời đi Disneyland sẽ được cập nhật sau — chờ ngày mình cùng nắm tay nhau ở đó nhé 🏰)</p>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/"
+    }
+  }
+  </script>
   <script src="js/lyrics.js"></script>
   <script src="js/heartParticles.js"></script>
   <script src="js/countdown.js"></script>
   <script src="js/musicPlayer.js"></script>
-  <script src="js/flightTimeline.js"></script>
+  <script type="module" src="js/flightTimeline.js"></script>
   <script src="js/giftReveal.js"></script>
+  <script type="module" src="js/bouquetReveal.js"></script>
   <script src="js/quizGate.js"></script>
   <script src="js/letterData.js"></script>
   <script src="js/letterReveal.js"></script>

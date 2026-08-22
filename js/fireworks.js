@@ -1,55 +1,10 @@
 (function () {
-  var FW_COLORS = ['#ffd166', '#ff6b9d', '#7fd8ff', '#c792ff', '#ffffff'];
+  // Lâu đài giờ là ảnh cutout tách riêng (không còn pháo hoa vẽ sẵn trong ảnh nền) — phục hồi
+  // hệ particle pháo hoa thật để pháo hoa chuyển động được, cộng thêm hiệu ứng cửa sổ lâu đài
+  // sáng đèn dần. Ken Burns áp lên #invite-kenburns (bọc chung trời/sao/lâu đài/pháo hoa) để
+  // các lớp không bị trôi lệch nhau khi zoom.
 
-  function buildCastleWindows() {
-    var windowsGroup = document.getElementById('castle-windows');
-    var glowGroup = document.getElementById('castle-window-glow');
-    if (!windowsGroup || !glowGroup || windowsGroup.childElementCount) return;
-    var blocks = [
-      { x: 70, y: 365, w: 310, h: 55 },
-      { x: 520, y: 365, w: 310, h: 55 },
-      { x: 112, y: 296, w: 62, h: 200 },
-      { x: 730, y: 296, w: 62, h: 200 },
-      { x: 252, y: 228, w: 66, h: 268 },
-      { x: 586, y: 228, w: 66, h: 268 },
-      { x: 364, y: 174, w: 58, h: 322 },
-      { x: 482, y: 174, w: 58, h: 322 },
-      { x: 402, y: 118, w: 96, h: 378 }
-    ];
-    var svgns = 'http://www.w3.org/2000/svg';
-    blocks.forEach(function (b) {
-      var cols = Math.max(2, Math.round(b.w / 24));
-      var rows = Math.max(2, Math.round(b.h / 28));
-      for (var r = 0; r < rows; r++) {
-        for (var c = 0; c < cols; c++) {
-          if (Math.random() < 0.22) continue;
-          var wx = b.x + (c + 0.5) * (b.w / cols);
-          var wy = b.y + (r + 0.5) * (b.h / rows);
-          var rect = document.createElementNS(svgns, 'rect');
-          rect.setAttribute('x', wx - 3);
-          rect.setAttribute('y', wy - 4);
-          rect.setAttribute('width', 6);
-          rect.setAttribute('height', 8);
-          rect.setAttribute('rx', 1.5);
-          windowsGroup.appendChild(rect);
-          if (Math.random() < 0.65) {
-            // glow đôi: quầng sát + quầng lan toả xa hơn cho cảm giác lung linh
-            var glowNear = document.createElementNS(svgns, 'circle');
-            glowNear.setAttribute('cx', wx);
-            glowNear.setAttribute('cy', wy);
-            glowNear.setAttribute('r', 6);
-            glowGroup.appendChild(glowNear);
-            var glowFar = document.createElementNS(svgns, 'circle');
-            glowFar.setAttribute('cx', wx);
-            glowFar.setAttribute('cy', wy);
-            glowFar.setAttribute('r', 13);
-            glowFar.setAttribute('opacity', '0.5');
-            glowGroup.appendChild(glowFar);
-          }
-        }
-      }
-    });
-  }
+  var FW_COLORS = ['#ffd166', '#ff6b9d', '#7fd8ff', '#c792ff', '#ffffff'];
 
   function spawnParticle(layer, cx, cy, dx, dy, color, duration) {
     var el = document.createElement('span');
@@ -122,32 +77,64 @@
     fireworksTimer = setInterval(function () { launchFirework(layer); }, 1400);
   }
 
-  function startCoupleWalk() {
-    var couple = document.getElementById('bubu-dudu');
-    if (!couple || couple.dataset.walking) return;
-    couple.dataset.walking = '1';
-    gsap.to(couple, { left: '55%', duration: 18, ease: 'sine.inOut', repeat: -1, yoyo: true });
-    ['dudu-leg-l', 'dudu-leg-r', 'bubu-leg-l', 'bubu-leg-r'].forEach(function (id, i) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      gsap.to(el, {
-        rotate: i % 2 === 0 ? 16 : -16,
-        transformOrigin: 'top center',
-        duration: 0.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: i * 0.12
-      });
+  // Các đốm sáng cửa sổ đặt sẵn trong HTML (toạ độ % đặt tay theo ảnh cutout thật) — sáng dần
+  // từng cái một lúc vào scene, không nhấp nháy liên tục.
+  function lightUpCastleWindows() {
+    var windows = document.querySelectorAll('.castle-window');
+    if (!windows.length) return;
+    gsap.to(windows, {
+      opacity: 1, duration: 0.7, ease: 'power1.out',
+      stagger: { each: 0.35, from: 'random' }
     });
+  }
+
+  function startKenBurns() {
+    var wrap = document.getElementById('invite-kenburns');
+    if (!wrap || wrap.dataset.kenburns) return;
+    wrap.dataset.kenburns = '1';
+    gsap.to(wrap, {
+      scale: 1.08, x: '-1.5%', y: '1%', duration: 26, ease: 'sine.inOut',
+      repeat: -1, yoyo: true, transformOrigin: '50% 55%'
+    });
+  }
+
+  function startFlashLoop() {
+    var flash = document.getElementById('invite-flash');
+    if (!flash || flash.dataset.looping) return;
+    flash.dataset.looping = '1';
+    function scheduleFlash() {
+      var delay = 4000 + Math.random() * 4000;
+      setTimeout(function () {
+        gsap.timeline({ onComplete: scheduleFlash })
+          .to(flash, { opacity: 1, duration: 0.18, ease: 'power1.in' })
+          .to(flash, { opacity: 0, duration: 0.22, ease: 'power1.out' });
+      }, delay);
+    }
+    scheduleFlash();
+  }
+
+  function startCoupleWalk() {
+    var couple = document.getElementById('ambient-couple');
+    var bob = document.getElementById('couple-bob');
+    if (!couple || !bob || couple.dataset.walking) return;
+    couple.dataset.walking = '1';
+
+    gsap.to(couple, { left: '58%', duration: 17, ease: 'sine.inOut', repeat: -1, yoyo: true });
+
+    // nhấp nhô 2 chu kỳ lệch pha (thời lượng khác nhau, không phải bội số của nhau)
+    // mô phỏng bước trái/phải không lướt đều đều.
+    gsap.to(bob, { y: -6, duration: 0.42, ease: 'sine.inOut', repeat: -1, yoyo: true });
+    gsap.to(bob, { rotate: 2.4, duration: 0.63, ease: 'sine.inOut', repeat: -1, yoyo: true, transformOrigin: '50% 100%' });
   }
 
   var inviteStarted = false;
   window.startInviteScene = function () {
     if (inviteStarted) return;
     inviteStarted = true;
-    buildCastleWindows();
+    startKenBurns();
+    startFlashLoop();
     startFireworksLoop();
+    lightUpCastleWindows();
     startCoupleWalk();
     if (window.startHeartLoop) window.startHeartLoop(3000);
   };

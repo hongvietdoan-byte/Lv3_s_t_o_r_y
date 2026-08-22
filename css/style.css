@@ -45,28 +45,43 @@ button {
 }
 
 /* ---------- Scene visibility system ---------- */
+/* Luôn display:flex — chuyển cảnh bằng crossfade opacity thay vì giật cứng
+   display:none/flex. visibility chỉ chuyển sang hidden SAU khi opacity đã về 0
+   (transition-delay) để scene cũ không chặn tương tác/đọc màn hình trong lúc mờ dần. */
 .scene {
   position: absolute;
   inset: 0;
-  display: none;
+  z-index: 0;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 24px;
   padding: 24px;
   text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
 }
 
-body[data-scene="locked"] #scene-passcode { display: flex; }
-body[data-scene="countdown"] #scene-countdown { display: flex; }
-body[data-scene="flight"] #scene-journey { display: flex; }
-body[data-scene="boxes"] #scene-boxes { display: flex; }
-body[data-scene="gallery"] #scene-box-gallery { display: flex; }
+body[data-scene="locked"] #scene-passcode,
+body[data-scene="countdown"] #scene-countdown,
+body[data-scene="flight"] #scene-journey,
+body[data-scene="boxes"] #scene-boxes,
+body[data-scene="gallery"] #scene-box-gallery,
 body[data-scene="bouquet"] #scene-box-bouquet,
 body[data-scene="quiz"] #scene-box-bouquet,
-body[data-scene="letter"] #scene-box-bouquet { display: flex; }
+body[data-scene="letter"] #scene-box-bouquet,
+body[data-scene="invite"] #scene-box-invite {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 1;
+  transition: opacity 0.5s ease;
+}
+
 body[data-scene="quiz"] #quiz-popup { display: flex; }
-body[data-scene="invite"] #scene-box-invite { display: flex; }
 
 /* Gramophone + lyrics trôi nổi: nhạc là nền xuyên suốt từ lúc máy bay cất cánh */
 body:not([data-scene="locked"]):not([data-scene="countdown"]) #gramophone-player,

@@ -1,0 +1,28 @@
+{
+  "name": "web-code-love",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hongvietdoan-byte/Lv3_s_t_o_r_y.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hongvietdoan-byte/Lv3_s_t_o_r_y/issues"
+  },
+  "homepage": "https://github.com/hongvietdoan-byte/Lv3_s_t_o_r_y#readme",
+  "dependencies": {
+    "@imgly/background-removal-node": "^1.4.5"
+  },
+  "allowScripts": {
+    "onnxruntime-node@1.17.3": true,
+    "sharp@0.32.6": true
+  }
+}

@@ -9,6 +9,7 @@
     } else if (target === 'bouquet') {
       if (window.resetBouquetScene) window.resetBouquetScene();
       document.body.dataset.scene = 'bouquet';
+      if (window.playBouquetReveal) window.playBouquetReveal();
     } else if (target === 'invite') {
       document.body.dataset.scene = 'invite';
       if (window.startInviteScene) window.startInviteScene();
@@ -21,6 +22,7 @@
       if (window.playFlight) window.playFlight(function () { window.goToBoxes(); });
     } else if (scene === 'bouquet') {
       if (window.resetBouquetScene) window.resetBouquetScene();
+      if (window.playBouquetReveal) window.playBouquetReveal();
     } else if (scene === 'letter') {
       if (window.debugRevealLetter) window.debugRevealLetter();
     } else if (scene === 'invite') {

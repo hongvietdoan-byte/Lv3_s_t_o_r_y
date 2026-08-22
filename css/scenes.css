@@ -109,22 +109,45 @@
 
 /* ================= MAP / JOURNEY ================= */
 #scene-journey {
-  background: radial-gradient(ellipse at 50% 40%, #23345a 0%, var(--color-night) 60%, var(--color-night-deep) 100%);
+  padding: 0;
+  background: #05040f;
+}
+#scene-journey .scene-eyebrow {
+  position: absolute;
+  z-index: 5;
+  top: max(18px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 150px);
+  text-align: center;
 }
 .map-wrap {
-  position: relative;
-  width: min(94vw, 640px);
-  aspect-ratio: 16 / 11;
+  position: absolute;
+  inset: 0;
 }
 #globe-canvas { width: 100%; height: 100%; display: block; }
-.plane-icon-2d {
+.journey-labels {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 68px;
-  opacity: 0;
+  inset: 0;
   pointer-events: none;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  overflow: hidden;
+}
+.journey-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: clamp(10px, 2.6vw, 13px);
+  letter-spacing: 0.06em;
+  color: #3a2f14;
+  background: rgba(255,255,255,0.55);
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s linear;
 }
 
 /* ================= 3 HỘP QUÀ ================= */
@@ -179,6 +202,11 @@
   padding: 8px 15px;
   backdrop-filter: blur(4px);
 }
+/* Màn hình hẹp: thu gọn nút về icon mũi tên để không đè lên chữ tiêu đề canh giữa */
+@media (max-width: 420px) {
+  .back-to-boxes { padding: 9px 12px; }
+  .back-to-boxes-label { display: none; }
+}
 
 /* ================= HỘP 1: KHO ẢNH ================= */
 #scene-box-gallery {
@@ -211,6 +239,7 @@
 /* ================= HỘP 2: BÓ HOA + THƯ ================= */
 #scene-box-bouquet {
   overflow: hidden;
+  padding: 0;
   background: radial-gradient(ellipse at 50% 30%, #2c2350 0%, var(--color-night) 55%, var(--color-night-deep) 100%);
 }
 #scene-box-bouquet .scene-eyebrow {
@@ -219,6 +248,8 @@
   top: max(18px, env(safe-area-inset-top));
   left: 50%;
   transform: translateX(-50%);
+  max-width: calc(100% - 150px);
+  text-align: center;
 }
 .bouquet-hero {
   position: absolute;
@@ -231,27 +262,17 @@
 }
 .bouquet-glow {
   position: absolute;
-  width: 130%;
-  height: 130%;
-  background: radial-gradient(circle, rgba(255,170,205,0.4) 0%, rgba(255,170,205,0) 65%);
-  filter: blur(6px);
+  width: 145%;
+  height: 145%;
+  background: radial-gradient(circle, rgba(255,170,205,0.45) 0%, rgba(255,170,205,0) 65%);
+  filter: blur(10px);
 }
-.wings-svg {
-  position: absolute;
-  width: 92%;
-  top: 6%;
-  opacity: 0.9;
-}
-.bouquet {
+#bouquet-canvas {
   position: relative;
-  width: min(92vw, 92vh, 620px);
-  filter: drop-shadow(0 24px 34px rgba(0,0,0,0.45));
-  animation: bouquet-breathe 4.5s ease-in-out infinite;
-  transform-origin: 50% 85%;
-}
-@keyframes bouquet-breathe {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.025) rotate(0.6deg); }
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
 }
 
 .envelope-btn {
@@ -265,6 +286,13 @@
   transition: transform 0.25s ease;
 }
 .envelope-btn:hover { transform: translateX(-50%) scale(1.05) rotate(-2deg); }
+/* Gài vào giữa cụm hoa (thay vì tách rời phía dưới) — lệch nhẹ + nghiêng như đang cắm trong bó. */
+.envelope-btn--tucked {
+  bottom: 30%;
+  width: min(19vw, 92px);
+  transform: translateX(-50%) rotate(-7deg);
+}
+.envelope-btn--tucked:hover { transform: translateX(-50%) rotate(-4deg) scale(1.06); }
 .envelope-img { width: 100%; }
 
 .gift-hint {
@@ -426,8 +454,8 @@ body[data-scene="letter"] #gift-eyebrow { display: none; }
 /* ================= HỘP 3: LỜI MỜI DISNEYLAND ================= */
 #scene-box-invite {
   overflow: hidden;
+  padding: 0;
   background: #07061a;
-  padding-bottom: clamp(90px, 18vh, 140px);
 }
 .anniversary-line {
   position: absolute;
@@ -436,13 +464,15 @@ body[data-scene="letter"] #gift-eyebrow { display: none; }
   transform: translateX(-50%);
   z-index: 3;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px 8px;
+  max-width: calc(100% - 150px);
   font-family: var(--font-ui);
   font-size: clamp(10px, 2.4vw, 12px);
   color: var(--color-blush);
   letter-spacing: 0.04em;
-  white-space: nowrap;
 }
 .anniversary-line strong {
   font-family: var(--font-serif);
@@ -462,13 +492,48 @@ body[data-scene="letter"] #gift-eyebrow { display: none; }
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
-.ambient-castle {
+/* Ken Burns áp lên CẢ wrapper (trời + sao + lâu đài + pháo hoa) để mọi lớp cùng
+   zoom/pan đồng bộ, không lệch nhau như khi chỉ zoom riêng ảnh nền. */
+.invite-kenburns {
   position: absolute;
-  bottom: 0;
+  inset: -6%;
+  transform-origin: 50% 55%;
+  will-change: transform;
+}
+.invite-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #1c1638 0%, #2c2160 32%, #4a2f72 62%, #7a3f6e 84%, #a8496a 100%);
+}
+.castle-wrap {
+  position: absolute;
+  bottom: 6%;
   left: 50%;
   transform: translateX(-50%);
-  width: min(200vw, 1500px);
+  width: min(46vw, 320px);
+  aspect-ratio: 225 / 670;
+  z-index: 1;
+}
+.castle-cutout {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.55));
+}
+.castle-window-lights { position: absolute; inset: 0; }
+.castle-window {
+  position: absolute;
+  width: 3.2%;
+  height: 1.6%;
+  margin-left: -1.6%;
+  margin-top: -0.8%;
+  border-radius: 2px;
+  background: radial-gradient(circle, #ffe9a8 0%, rgba(255,233,168,0) 72%);
+  box-shadow: 0 0 8px 2px rgba(255,233,168,0.75);
+  opacity: 0;
 }
 #fireworks-layer {
   position: absolute;
@@ -482,23 +547,86 @@ body[data-scene="letter"] #gift-eyebrow { display: none; }
   border-radius: 50%;
   will-change: transform, opacity;
 }
+.invite-sparkles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.iv-sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff8df 0%, rgba(255,248,223,0) 70%);
+  opacity: 0;
+  animation: iv-sparkle-twinkle 3.6s ease-in-out infinite;
+}
+@keyframes iv-sparkle-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.85; transform: scale(1.3); }
+}
+.invite-flash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 32%, rgba(255,244,214,0.55) 0%, rgba(255,244,214,0) 60%);
+  opacity: 0;
+}
 .ambient-couple {
   position: absolute;
-  bottom: 4%;
-  left: -16%;
-  width: 130px;
+  bottom: 7%;
+  left: 32%;
+  width: min(19vw, 108px);
   z-index: 2;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+}
+.couple-shadow {
+  position: absolute;
+  bottom: -8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 76%;
+  height: 18%;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 72%);
+  filter: blur(2px);
+}
+.couple-bob {
+  position: relative;
+}
+.couple-img {
+  display: block;
+  width: 100%;
+  filter: brightness(0.78) saturate(0.82) contrast(1.05) drop-shadow(0 4px 6px rgba(0,0,0,0.35));
+}
+.couple-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(40,55,110,0.35), rgba(10,15,45,0.55));
+  mix-blend-mode: multiply;
+  -webkit-mask-image: url(../assets/img/cutout/bubu-dudu-cutout.png);
+  mask-image: url(../assets/img/cutout/bubu-dudu-cutout.png);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .invite-caption {
-  position: relative;
+  position: absolute;
   z-index: 3;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
   max-width: min(88vw, 420px);
+  text-align: center;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: clamp(13px, 3vw, 15px);
   color: var(--color-cream);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
   opacity: 0.9;
   margin: 0;
 }
